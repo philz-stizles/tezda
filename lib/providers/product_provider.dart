@@ -15,7 +15,6 @@ class ProductNotifier extends StateNotifier<List<Product>> {
     try {
       final response = await http.get(Uri.https(_baseUrl, 'products'));
       final json = jsonDecode(response.body) as List<dynamic>;
-      print(json);
       state = json.map((item) => Product.fromJson(item)).toList();
     } catch (e) {
       if (kDebugMode) {

@@ -20,8 +20,6 @@ class MainApp extends ConsumerWidget {
     final auth = ref.watch(authProvider);
     final authP = ref.watch(authProvider.notifier);
 
-    print(auth.token);
-
     return MaterialApp(
       debugShowCheckedModeBanner: false,
       title: 'Tezda Commerce',

@@ -44,6 +44,7 @@ class ProductItemCard extends ConsumerWidget {
                 cart.add(
                     id: product.id!,
                     title: product.title,
+                    image: product.image,
                     price: product.price);
 
                 ScaffoldMessenger.of(context).hideCurrentSnackBar();

@@ -15,13 +15,14 @@ class CartNotifier extends StateNotifier<Map<String, CartItem>> {
     return totalAmount;
   }
 
-  void add({required int id, required String title, required double price}) {
+  void add({required int id, required String title, required image, required double price}) {
     if (state.containsKey(id)) {
       state.update(
           id.toString(),
           (existing) => CartItem(
               id: existing.id,
               title: existing.title,
+              image: existing.image,
               price: existing.price,
               quantity: existing.quantity + 1));
     } else {
@@ -30,6 +31,7 @@ class CartNotifier extends StateNotifier<Map<String, CartItem>> {
           () => CartItem(
               id: DateTime.now().toString(),
               title: title,
+              image: image,
               price: price,
               quantity: 1));
     }

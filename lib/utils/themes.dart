@@ -1,10 +1,13 @@
 import 'package:flutter/material.dart';
+import 'package:tezda/utils/palette.dart';
 
 import 'constants.dart';
 
 class AppTheme {
   static ThemeData lightTheme(BuildContext context) {
     return ThemeData(
+      primarySwatch: Palette.buildMaterialColor(kPrimaryColor),
+      primaryColor: kPrimaryColor,
       scaffoldBackgroundColor: Colors.white,
       fontFamily: "Muli",
       appBarTheme: const AppBarTheme(

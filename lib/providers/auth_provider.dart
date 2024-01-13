@@ -78,18 +78,16 @@ class AuthNotifier extends StateNotifier<AuthUser> {
       final expiryDate =
           DateTime.now().add(Duration(seconds: int.parse(json['expiresIn'])));
 
-      final authUser = AuthUser(
-        token: json['idToken'],
-        userId: json['localId'],
-        expiryDate: expiryDate,
-      );
+      final authTimer = _setAutoLogoutTimer(expiryDate);
 
-      print(authUser);
+      final authUser = AuthUser(
+          token: json['idToken'],
+          userId: json['localId'],
+          expiryDate: expiryDate,
+          authTimer: authTimer);
 
       // // Obtain shared preferences.
       final prefs = await SharedPreferences.getInstance();
-
-      // _setAutoLogoutTimer();
 
       final userDataString = jsonEncode({
         AuthUserKeys.token: authUser.token,
@@ -101,7 +99,7 @@ class AuthNotifier extends StateNotifier<AuthUser> {
 
       state = authUser;
 
-       print(state);
+      print(state);
     } catch (e) {
       if (kDebugMode) {
         print(e);
@@ -111,13 +109,11 @@ class AuthNotifier extends StateNotifier<AuthUser> {
   }
 
   Future<void> logout() async {
-    state.token = null;
-    state.userId = null;
-    state.expiryDate = null;
-
     if (state.authTimer != null) {
       state.authTimer?.cancel();
     }
+
+    state = AuthUser();
 
     final prefs = await SharedPreferences.getInstance();
     if (prefs.containsKey(AuthUserKeys.storeKey)) {
@@ -125,18 +121,16 @@ class AuthNotifier extends StateNotifier<AuthUser> {
     }
   }
 
-  void _setAutoLogoutTimer() {
+  Timer _setAutoLogoutTimer(DateTime expiryDate) {
+    print('setAutoLogoutTimer');
+    print(state);
     if (state.authTimer != null) {
       state.authTimer?.cancel();
       state.authTimer = null;
     }
-    // if (state.expiryDate != null) {
-    final secondsToExpiry =
-        state.expiryDate!.difference(DateTime.now()).inSeconds;
-    state.authTimer = Timer(Duration(seconds: secondsToExpiry), logout);
-    // } else {
-    //   await logout();
-    // }
+
+    final secondsToExpiry = expiryDate.difference(DateTime.now()).inSeconds;
+    return Timer(Duration(seconds: secondsToExpiry), logout);
   }
 
   Future<bool> tryAutoLogin() async {
@@ -156,11 +150,15 @@ class AuthNotifier extends StateNotifier<AuthUser> {
       return false;
     }
 
-    state.token = userData[AuthUserKeys.token];
-    state.userId = userData[AuthUserKeys.userId];
-    state.expiryDate = expiryDate;
+    final authUser = AuthUser(
+      token: userData[AuthUserKeys.token],
+      userId: userData[AuthUserKeys.userId],
+      expiryDate: expiryDate,
+    );
 
-    _setAutoLogoutTimer();
+    state = authUser;
+
+    _setAutoLogoutTimer(expiryDate);
 
     return true;
   }

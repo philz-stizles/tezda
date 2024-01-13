@@ -1,13 +1,12 @@
 import 'dart:async';
 
 class AuthUser {
-  AuthUser({this.userId, this.token, this.expiryDate, this.isLoading = false});
+  AuthUser({this.userId, this.token, this.expiryDate, this.authTimer});
 
   String? userId;
   String? token;
   DateTime? expiryDate;
   Timer? authTimer;
-  bool isLoading;
 
   @override
   String toString() {

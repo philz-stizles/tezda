@@ -4,16 +4,14 @@ import 'package:tezda/providers/providers.dart';
 import 'package:tezda/screens/screens.dart';
 import 'package:tezda/widgets/widgets.dart';
 
-import '../models/models.dart';
+import '../../models/models.dart';
 
 class ProductsScreen extends ConsumerStatefulWidget {
   const ProductsScreen({super.key});
   static const String routeName = '/products-screen';
 
   @override
-  ConsumerState<ConsumerStatefulWidget> createState() {
-    return _ProductsScreenState();
-  }
+  ConsumerState<ProductsScreen> createState() => _ProductsScreenState();
 }
 
 class _ProductsScreenState extends ConsumerState<ProductsScreen> {
@@ -33,25 +31,38 @@ class _ProductsScreenState extends ConsumerState<ProductsScreen> {
 
     return Scaffold(
       appBar: AppBar(
+        automaticallyImplyLeading: false,
+        leading: GestureDetector(
+          onTap: () {
+            Navigator.of(context).push(
+                MaterialPageRoute(builder: (context) => const ProfileScreen()));
+          },
+          child: CircleAvatar(
+              backgroundColor: Colors.transparent,
+              child: Image.asset(
+                'assets/images/avatar.png',
+                width: 30,
+                height: 30,
+                fit: BoxFit.cover,
+              )),
+        ),
         title: const Text('Tezda Mall'),
         actions: [
           IconButton(
               onPressed: () => Navigator.of(context).push(MaterialPageRoute(
                   builder: (context) => const FavoritesScreen())),
-              icon: const Icon(Icons.favorite)),
-          IconButton(
-              onPressed: () => Navigator.of(context).push(
-                  MaterialPageRoute(builder: (context) => const CartScreen())),
-              icon: const Icon(Icons.shopping_cart))
-          // Consumer(
-          //     builder: (_, cartProvider, ch) => AppBadge(
-          //           value: cartProvider.cartProductCount.toString(),
-          //           child: ch!,
-          //         ),
-          //     child: IconButton(
-          //         onPressed: () => Navigator.of(context).push(MaterialPageRoute(
-          //             builder: (context) => const CartScreen())),
-          //         icon: const Icon(Icons.shopping_cart)))
+              icon: const Icon(Icons.favorite_border_outlined)),
+          Consumer(
+              builder: (_, ref, ch) => AppBadge(
+                    value: "${ref.watch(cartProvider).length}",
+                    child: ch!,
+                  ),
+              child: IconButton(
+                  onPressed: () {
+                    Navigator.of(context).push(MaterialPageRoute(
+                        builder: (context) => const CartScreen()));
+                  },
+                  icon: const Icon(Icons.shopping_cart_outlined)))
         ],
       ),
       body: FutureBuilder(
