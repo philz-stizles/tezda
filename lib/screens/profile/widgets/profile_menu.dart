@@ -32,10 +32,7 @@ class ProfileMenu extends StatelessWidget {
             Icon(icon, size: 16),
             const SizedBox(width: 20),
             Expanded(child: Text(text)),
-            const Icon(
-              Icons.arrow_forward_ios,
-              size: 16,
-            ),
+             
           ],
         ),
       ),

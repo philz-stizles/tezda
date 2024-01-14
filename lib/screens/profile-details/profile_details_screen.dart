@@ -58,88 +58,64 @@ class _ProfileDetailsScreenState extends ConsumerState<ProfileDetailsScreen> {
               children: [
                 snapshot.connectionState == ConnectionState.waiting
                     ? const Center(child: CircularProgressIndicator())
-                    : Column(
-                        children: [
-                          TextFormField(
-                            keyboardType: TextInputType.emailAddress,
-                            // onSaved: (newValue) => email = newValue,
-                            onChanged: (value) {
-                              if (value.isNotEmpty) {
-                                removeError(error: kEmailNullError);
-                              } else if (emailValidatorRegExp.hasMatch(value)) {
-                                removeError(error: kInvalidEmailError);
-                              }
-                              return;
-                            },
-                            validator: (value) {
-                              if (value!.isEmpty) {
-                                addError(error: kEmailNullError);
-                                return "";
-                              } else if (!emailValidatorRegExp
-                                  .hasMatch(value)) {
-                                addError(error: kInvalidEmailError);
-                                return "";
-                              }
-                              return null;
-                            },
-                            decoration: const InputDecoration(
-                              labelText: "Email",
-                              hintText: "Enter your email",
-                              // If  you are using latest version of flutter then lable text and hint text shown like this
-                              // if you r using flutter less then 1.20.* then maybe this is not working properly
-                              floatingLabelBehavior:
-                                  FloatingLabelBehavior.always,
-                              // suffixIcon:
-                              //     SuffixIcon(svgIcon: "assets/icons/Mail.svg"),
+                    : Padding(
+                        padding: const EdgeInsets.symmetric(horizontal: 20),
+                        child: Column(
+                          children: [
+                            TextFormField(
+                              keyboardType: TextInputType.emailAddress,
+                              // onSaved: (newValue) => email = newValue,
+                              onChanged: (value) {},
+                              validator: (value) {},
+                              decoration: const InputDecoration(
+                                labelText: "Name",
+                                hintText: "Enter your Name",
+                                floatingLabelBehavior:
+                                    FloatingLabelBehavior.always,
+                              ),
                             ),
-                          ),
-                          const SizedBox(height: 20),
-                          TextFormField(
-                            obscureText: true,
-                            // onSaved: (newValue) => password = newValue,
-                            onChanged: (value) {
-                              if (value.isNotEmpty) {
-                                removeError(error: kPassNullError);
-                              } else if (value.length >= 8) {
-                                removeError(error: kShortPassError);
-                              }
-                              return;
-                            },
-                            validator: (value) {
-                              if (value!.isEmpty) {
-                                addError(error: kPassNullError);
-                                return "";
-                              } else if (value.length < 8) {
-                                addError(error: kShortPassError);
-                                return "";
-                              }
-                              return null;
-                            },
-                            decoration: const InputDecoration(
-                              labelText: "Password",
-                              hintText: "Enter your password",
-                              // If  you are using latest version of flutter then lable text and hint text shown like this
-                              // if you r using flutter less then 1.20.* then maybe this is not working properly
-                              floatingLabelBehavior:
-                                  FloatingLabelBehavior.always,
-                              // suffixIcon:
-                              //     SuffixIcon(svgIcon: "assets/icons/Lock.svg"),
+                            const SizedBox(height: 20),
+                            TextFormField(
+                              keyboardType: TextInputType.emailAddress,
+                              // onSaved: (newValue) => email = newValue,
+                              onChanged: (value) {},
+                              validator: (value) {},
+                              decoration: const InputDecoration(
+                                labelText: "Email",
+                                hintText: "Enter your email",
+                                floatingLabelBehavior:
+                                    FloatingLabelBehavior.always,
+                              ),
                             ),
-                          ),
-                          ElevatedButton(
-                            onPressed: () {
-                              if (_formKey.currentState!.validate()) {
-                                _formKey.currentState!.save();
-                                _submit();
-                                // KeyboardUtil.hideKeyboard(context);
-                                // Navigator.pushNamed(context, LoginSuccessScreen.routeName);
-                              }
-                            },
-                            child: Text(user == null
-                                ? "Create Profile"
-                                : "Update Profile"),
-                          ),
-                        ],
+                            const SizedBox(height: 20),
+                            TextFormField(
+                              keyboardType: TextInputType.phone,
+                              // onSaved: (newValue) => email = newValue,
+                              onChanged: (value) {},
+                              validator: (value) {},
+                              decoration: const InputDecoration(
+                                labelText: "Phone",
+                                hintText: "Enter your phone",
+                                floatingLabelBehavior:
+                                    FloatingLabelBehavior.always,
+                              ),
+                            ),
+                            const SizedBox(height: 20),
+                            ElevatedButton(
+                              onPressed: () {
+                                if (_formKey.currentState!.validate()) {
+                                  _formKey.currentState!.save();
+                                  _submit();
+                                  // KeyboardUtil.hideKeyboard(context);
+                                  // Navigator.pushNamed(context, LoginSuccessScreen.routeName);
+                                }
+                              },
+                              child: Text(user == null
+                                  ? "Create Profile"
+                                  : "Update Profile"),
+                            ),
+                          ],
+                        ),
                       )
               ],
             );

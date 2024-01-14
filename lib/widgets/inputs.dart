@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:tezda/utils/constants.dart';
 
 import 'package:tezda/utils/palette.dart';
 
@@ -43,8 +44,8 @@ class AppTextField extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Container(
-        margin: const EdgeInsets.fromLTRB(0.0, 5.0, 0.0, 15.0),
+    return Padding(
+        padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 5),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
@@ -83,12 +84,38 @@ class AppTextField extends StatelessWidget {
               maxLength: maxLength,
               obscureText: isObscured,
               decoration: InputDecoration(
-                enabled: isEnabled,
-                hintText: hintText,
-                suffixIcon: icon == null
-                    ? null
-                    : GestureDetector(onTap: iconTap, child: Icon(icon)),
-              ),
+                  prefixIcon: Icon(icon, size: 16),
+                  prefixIconColor: kPrimaryColor,
+                  border: OutlineInputBorder(
+                    gapPadding: 20,
+                    borderSide: const BorderSide(
+                      color: kPrimaryColor,
+                      width: 1,
+                    ),
+                    borderRadius: BorderRadius.circular(15),
+                  ),
+                  enabledBorder: OutlineInputBorder(
+                    borderSide: const BorderSide(
+                      color: kPrimaryColor,
+                      width: 1,
+                    ),
+                    borderRadius: BorderRadius.circular(15),
+                    gapPadding: 20,
+                  ),
+                  focusedBorder: OutlineInputBorder(
+                    gapPadding: 20,
+                    borderSide: const BorderSide(
+                      color: kPrimaryColor,
+                      width: 1.5,
+                      
+                    ),
+                    borderRadius: BorderRadius.circular(15),
+                  ),
+                  contentPadding:
+                      const EdgeInsets.symmetric(vertical: 4, horizontal: 32),
+                  enabled: isEnabled,
+                  hintText: hintText,
+                  hintStyle: const TextStyle(color: kPrimaryColor)),
               validator: validator ??
                   (val) {
                     if (val == null || val.isEmpty) {
